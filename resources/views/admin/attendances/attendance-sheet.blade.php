@@ -1,0 +1,199 @@
+@extends('admin.adminlayouts.adminlayout')
+@section('head')
+    <style>
+        .btn.active {
+            opacity: 2 !important;
+        }
+
+    </style>
+@stop
+
+@section('content')
+
+    <!-- BEGIN PAGE HEADER-->
+    <div class="page-head">
+        <div class="page-title">
+            <h1>
+                <i class="fal fa-user-check"></i>
+                @lang("pages.attendances.indexTitle")
+            </h1>
+        </div>
+        <div class="page-toolbar">
+            <!-- BEGIN THEME PANEL -->
+            <!-- <div class="btn-theme-panel">
+                    <button onclick="{{ route('admin.attendances.index') }}" class="btn {{ isset($viewAttendanceActive) ? $viewAttendanceActive : '' }}">
+                        <i class="fal fa-th"></i>
+                     </button>
+                    <button onclick="{{ route('admin.attendance.employee') }}" class="btn">
+                        <i class="fal fa-bars"></i>
+                    </button>
+                </div> -->
+            <!-- END THEME PANEL -->
+        </div>
+    </div>
+    <div class="page-bar">
+        <ul class="page-breadcrumb breadcrumb">
+            <!-- <li>
+                    <a onclick="loadView('{{ route('admin.dashboard.index') }}')">{{ trans('core.dashboard') }}</a>
+                    <i class="fa fa-circle"></i>
+                </li>
+                <li>
+                    <span class="active">@lang("pages.attendances.indexTitle")</span>
+                </li> -->
+
+        </ul>
+
+    </div>
+    <!-- END PAGE HEADER-->
+    <!-- BEGIN PAGE CONTENT-->
+
+    <div class="row">
+        <div class="col-md-12">
+
+            <div id="panel-1" class="panel">
+                <div class="panel-hdr">
+                    <h2><i class="fal fa-user-check"></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Attendance<span class="fw-300"><i></i></span>
+                    </h2>
+                    <div class="panel-toolbar">
+                        <button class="btn btn-panel" data-action="panel-collapse" data-toggle="tooltip" data-offset="0,10"
+                            data-original-title="Collapse"></button>
+                        <button class="btn btn-panel" data-action="panel-fullscreen" data-toggle="tooltip"
+                            data-offset="0,10" data-original-title="Fullscreen"></button>
+                        <!-- <button class="btn btn-panel" data-action="panel-close" data-toggle="tooltip" data-offset="0,10" data-original-title="Close"></button> --}} -->
+                    </div>
+                </div>
+                <br>
+                <div class="btn-theme-panel">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{{ route('admin.attendances.index') }}"
+                        class="btn {{ isset($viewAttendanceActive) ? $viewAttendanceActive : '' }}">
+                        <i class="fal fa-th"></i>
+                    </a>
+                    <a href="{{ route('admin.attendance.employee') }}" class="btn">
+                        <i class="fal fa-bars"></i>
+                    </a>
+                </div>
+                <div class="panel-container show">
+                    <div class="panel-content">
+                        <div class="row filter-row">
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="form-group form-focus">
+                                    <label class="control-label">@lang('core.employeeName')</label>
+                                    <select class="form-control select2me" name="employee_id">
+                                        <option value="all">All</option>
+                                        @foreach ($employees as $employee)
+                                            <option value="{{ $employee->id }}">{{ $employee->full_name }}
+                                                (@lang('core.empId'): {{ $employee->employeeID }})</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="form-group form-focus">
+                                    <label class="control-label">@lang('core.selectMonth')</label>
+                                    <select class="form-control select floating" name="month">
+                                        <option value="1" @if (strtolower(date('F')) == 'january') selected='selected' @endif>
+                                            @lang('core.jan')
+                                        </option>
+                                        <option value="2" @if (strtolower(date('F')) == 'february') selected='selected' @endif>
+                                            @lang('core.feb')
+                                        </option>
+                                        <option value="3" @if (strtolower(date('F')) == 'march') selected='selected' @endif>
+                                            @lang('core.mar')
+                                        </option>
+                                        <option value="4" @if (strtolower(date('F')) == 'april') selected='selected' @endif>
+                                            @lang('core.apr')
+                                        </option>
+                                        <option value="5" @if (strtolower(date('F')) == 'may') selected='selected' @endif>
+                                            @lang('core.may')
+                                        </option>
+                                        <option value="6" @if (strtolower(date('F')) == 'june') selected='selected' @endif>
+                                            @lang('core.jun')
+                                        </option>
+                                        <option value="7" @if (strtolower(date('F')) == 'july') selected='selected' @endif>
+                                            @lang('core.jul')
+                                        </option>
+                                        <option value="8" @if (strtolower(date('F')) == 'august') selected='selected' @endif>
+                                            @lang('core.aug')
+                                        </option>
+                                        <option value="9" @if (strtolower(date('F')) == 'september') selected='selected' @endif>
+                                            @lang('core.sept')
+                                        </option>
+                                        <option value="10" @if (strtolower(date('F')) == 'october') selected='selected' @endif>
+                                            @lang('core.oct')
+                                        </option>
+                                        <option value="11" @if (strtolower(date('F')) == 'november') selected='selected' @endif>
+                                            @lang('core.nov')
+                                        </option>
+                                        <option value="12" @if (strtolower(date('F')) == 'december') selected='selected' @endif>
+                                            @lang('core.dec')
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="form-group form-focus">
+                                    <label class="control-label">@lang('core.selectYear')</label>
+                                    {!! Form::selectYear('year', 2015, date('Y'), date('Y'), ['class' => 'form-control select floating']) !!}
+                                </div>
+                            </div>
+                            <div class="col-sm-3 col-xs-6">
+                                <div class="form-group form-focus">
+                                    <label class="control-label">&nbsp;</label>
+                                    <a href="#" class="btn btn-success btn-block" onclick="filter(); return false;"> Search
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="panel-container show">
+                                    <div class="panel-content">
+                                        <div class="table-responsive" id="attendance-sheet">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+@stop
+
+
+@section('page_js')
+
+    <!-- BEGIN PAGE LEVEL PLUGINS -->
+    <!-- {!! HTML::script('assets/hr/js/select2.min.js') !!} -->
+
+    <!-- END PAGE LEVEL PLUGINS -->
+    <script type="text/javascript">
+        var filter = () => {
+            var data = {
+                employee_id: $("select[name='employee_id']").val(),
+                month: $("select[name='month']").val(),
+                year: $("select[name='year']").val(),
+                _token: '{{ csrf_token() }}'
+            };
+
+            var url = "{{ route('admin.attendance.filter') }}";
+            $.easyAjax({
+                type: 'POST',
+                url: url,
+                container: '#attendance-sheet',
+                data: data,
+                success: function(res) {
+                    if (res.status === 'success') {
+                        $('#attendance-sheet').html(res.data);
+                    }
+                }
+            });
+        };
+        jQuery(document).ready(function() {
+            filter();
+        });
+    </script>
+@stop
